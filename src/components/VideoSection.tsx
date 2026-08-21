@@ -138,7 +138,9 @@ export const VideoSection: React.FC = () => {
                         onError={() => setHasCustomVideo(false)}
                       >
                         <source src="/video2.mp4" type="video/mp4" />
+                        <source src="/video-1.mpeg" type="video/mpeg" />
                         <source src="video2.mp4" type="video/mp4" />
+                        <source src="video-1.mpeg" type="video/mpeg" />
                         <source src="/Video2.mp4" type="video/mp4" />
                         <source src="Video2.mp4" type="video/mp4" />
                         <source src="assets/video2.mp4" type="video/mp4" />
