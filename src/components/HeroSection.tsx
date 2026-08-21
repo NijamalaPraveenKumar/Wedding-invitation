@@ -15,18 +15,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollDown }) => {
       {/* Background Image with Fallback and Dark Gradient Overlays */}
       <div className="absolute inset-0 z-0">
         <picture>
-          <source srcSet="hero.png" />
           <source srcSet="/hero.png" />
-          <source srcSet="assets/hero.png" />
+          <source srcSet="hero.png" />
+          <source srcSet="/assets/hero.png" />
           <img
-            src="hero.png"
+            src="/hero.png"
             alt=""
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover object-[75%_top] sm:object-[80%_center] lg:object-[85%_center] transition-transform duration-1000"
             onError={(e) => {
               const target = e.currentTarget;
               if (target.src.indexOf('hero.png') === -1) {
-                target.src = '/hero.png';
+                target.src = 'hero.png';
               }
             }}
           />

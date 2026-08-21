@@ -49,18 +49,18 @@ export const FooterSection: React.FC = () => {
 
               <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden border border-[#d4af6a]/40">
                 <picture>
-                  <source srcSet="footer.png" />
                   <source srcSet="/footer.png" />
-                  <source srcSet="assets/footer.png" />
+                  <source srcSet="footer.png" />
+                  <source srcSet="/assets/footer.png" />
                   <img
-                    src="footer.png"
+                    src="/footer.png"
                     alt="Suresh & Nandini Together"
                     referrerPolicy="no-referrer"
                     className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
                     onError={(e) => {
                       const target = e.currentTarget;
                       if (target.src.indexOf('footer.png') === -1) {
-                        target.src = '/footer.png';
+                        target.src = 'footer.png';
                       }
                     }}
                   />
