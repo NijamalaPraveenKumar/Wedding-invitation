@@ -1,0 +1,6 @@
+{
+  "name": "Suresh & Nandini Wedding Invitation",
+  "description": "A luxury royal Indian wedding invitation landing page for Suresh & Nandini featuring Telugu details, live countdown, video invitation, and gold royal aesthetic.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
