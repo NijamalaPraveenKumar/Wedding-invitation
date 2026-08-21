@@ -5,7 +5,7 @@ import { defineConfig } from 'vite';
 
 export default defineConfig(() => {
   return {
-    base: '/Wedding-invitation/',
+    base: '/',
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: {
