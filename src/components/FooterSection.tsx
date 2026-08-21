@@ -48,23 +48,18 @@ export const FooterSection: React.FC = () => {
               <CornerFlourish position="bottom-right" size={40} />
 
               <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden border border-[#d4af6a]/40">
-                <picture>
-                  <source srcSet="/footer.png" />
-                  <source srcSet="footer.png" />
-                  <source srcSet="/assets/footer.png" />
-                  <img
-                    src="/footer.png"
-                    alt="Suresh & Nandini Together"
-                    referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
-                    onError={(e) => {
-                      const target = e.currentTarget;
-                      if (target.src.indexOf('footer.png') === -1) {
-                        target.src = 'footer.png';
-                      }
-                    }}
-                  />
-                </picture>
+                <img
+                  src="/footer.png"
+                  alt="Suresh & Nandini Together"
+                  referrerPolicy="no-referrer"
+                  className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    if (!target.src.endsWith('/footer.png') && !target.src.endsWith('footer.png')) {
+                      target.src = '/footer.png';
+                    }
+                  }}
+                />
                 {/* Soft Vignette Overlay to blend seamlessly */}
                 <div className="absolute inset-0 bg-gradient-to-t from-[#050814]/80 via-transparent to-transparent pointer-events-none" />
                 <div className="absolute bottom-3 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-[#070b19]/90 border border-[#d4af6a]/40 text-[11px] font-cinzel text-[#fcebc2] tracking-widest uppercase">

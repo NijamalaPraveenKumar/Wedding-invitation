@@ -1,20 +1,22 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Play, Film, Sparkles } from 'lucide-react';
 import { CornerFlourish, GoldDivider, ToranArchCrest } from './OrnamentalDecorations';
 
 export const VideoSection: React.FC = () => {
   const [isPlaying, setIsPlaying] = useState(false);
-  const [hasCustomVideo, setHasCustomVideo] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const handleStartPlay = () => {
     setIsPlaying(true);
-    if (videoRef.current) {
+  };
+
+  useEffect(() => {
+    if (isPlaying && videoRef.current) {
       videoRef.current.play().catch(() => {
-        setHasCustomVideo(false);
+        // Video element is available with standard controls for the user
       });
     }
-  };
+  }, [isPlaying]);
 
   return (
     <section id="video" className="py-24 px-6 sm:px-12 lg:px-20 bg-[#0d1630] relative overflow-hidden border-t border-b border-[#d4af6a]/30">
@@ -127,49 +129,26 @@ export const VideoSection: React.FC = () => {
                 ) : (
                   /* Actual HTML5 Video Element */
                   <div className="w-full h-full relative">
-                    {hasCustomVideo ? (
-                      <video
-                        ref={videoRef}
-                        controls
-                        autoPlay
-                        playsInline
-                        preload="metadata"
-                        className="w-full h-full object-cover"
-                        onError={() => setHasCustomVideo(false)}
-                      >
-                        <source src="/video2.mp4" type="video/mp4" />
-                        <source src="/video-1.mpeg" type="video/mpeg" />
-                        <source src="video2.mp4" type="video/mp4" />
-                        <source src="video-1.mpeg" type="video/mpeg" />
-                        <source src="/Video2.mp4" type="video/mp4" />
-                        <source src="Video2.mp4" type="video/mp4" />
-                        <source src="assets/video2.mp4" type="video/mp4" />
-                        <source src="/assets/video2.mp4" type="video/mp4" />
-                        <source src="assets/Video2.mp4" type="video/mp4" />
-                        <source src="/assets/Video2.mp4" type="video/mp4" />
-                        Your browser does not support HTML5 video.
-                      </video>
-                    ) : (
-                      /* Elegant Interactive Video Motion E-Card */
-                      <div className="w-full h-full flex flex-col items-center justify-center p-8 bg-gradient-to-b from-[#0e1938] to-[#060a17] text-center">
-                        <Sparkles className="w-8 h-8 text-[#d4af6a] animate-spin mb-3" style={{ animationDuration: '8s' }} />
-                        <h4 className="font-telugu-serif text-2xl text-gold-gradient font-bold">
-                          కల్యాణ వైభోగమే!
-                        </h4>
-                        <p className="font-script text-3xl text-[#fcebc2] my-2">
-                          Suresh weds Nandini
-                        </p>
-                        <p className="font-garamond text-lg text-[#f2cf87] italic max-w-md">
-                          &ldquo;Two souls, one sacred journey blessed by the divine.&rdquo;
-                        </p>
-                        <button
-                          onClick={() => setIsPlaying(false)}
-                          className="mt-4 px-5 py-2 rounded-full border border-[#d4af6a]/60 text-xs font-cinzel text-[#fcebc2] hover:bg-[#d4af6a] hover:text-[#070b19] transition-all"
-                        >
-                          Reset Card
-                        </button>
-                      </div>
-                    )}
+                    <video
+                      ref={videoRef}
+                      controls
+                      autoPlay
+                      playsInline
+                      preload="metadata"
+                      className="w-full h-full object-cover"
+                    >
+                      <source src="/video2.mp4" type="video/mp4" />
+                      <source src="/video-1.mpeg" type="video/mpeg" />
+                      <source src="video2.mp4" type="video/mp4" />
+                      <source src="video-1.mpeg" type="video/mpeg" />
+                      <source src="/Video2.mp4" type="video/mp4" />
+                      <source src="Video2.mp4" type="video/mp4" />
+                      <source src="assets/video2.mp4" type="video/mp4" />
+                      <source src="/assets/video2.mp4" type="video/mp4" />
+                      <source src="assets/Video2.mp4" type="video/mp4" />
+                      <source src="/assets/Video2.mp4" type="video/mp4" />
+                      Your browser does not support HTML5 video.
+                    </video>
                   </div>
                 )}
               </div>
