@@ -15,22 +15,18 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onScrollDown }) => {
       {/* Background Image with Fallback and Dark Gradient Overlays */}
       <div className="absolute inset-0 z-0">
         <picture>
-          <source srcSet="Untitled design.png" />
-          <source srcSet="/Untitled design.png" />
-          <source srcSet="assets/Untitled design.png" />
-          <source srcSet="/assets/Untitled design.png" />
-          <source srcSet="assets/couple-hero.png" />
-          <source srcSet="assets/couple-hero.jpg" />
+          <source srcSet="hero.png" />
+          <source srcSet="/hero.png" />
+          <source srcSet="assets/hero.png" />
           <img
-            src="Untitled design.png"
+            src="hero.png"
             alt=""
             referrerPolicy="no-referrer"
             className="w-full h-full object-cover object-[75%_top] sm:object-[80%_center] lg:object-[85%_center] transition-transform duration-1000"
             onError={(e) => {
               const target = e.currentTarget;
-              if (target.src.indexOf('unsplash.com') === -1) {
-                target.src =
-                  'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1920&auto=format&fit=crop';
+              if (target.src.indexOf('hero.png') === -1) {
+                target.src = '/hero.png';
               }
             }}
           />

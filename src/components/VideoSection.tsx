@@ -132,10 +132,19 @@ export const VideoSection: React.FC = () => {
                         ref={videoRef}
                         controls
                         autoPlay
+                        playsInline
+                        preload="metadata"
                         className="w-full h-full object-cover"
                         onError={() => setHasCustomVideo(false)}
                       >
-                        <source src="assets/invitation.mp4" type="video/mp4" />
+                        <source src="/video2.mp4" type="video/mp4" />
+                        <source src="video2.mp4" type="video/mp4" />
+                        <source src="/Video2.mp4" type="video/mp4" />
+                        <source src="Video2.mp4" type="video/mp4" />
+                        <source src="assets/video2.mp4" type="video/mp4" />
+                        <source src="/assets/video2.mp4" type="video/mp4" />
+                        <source src="assets/Video2.mp4" type="video/mp4" />
+                        <source src="/assets/Video2.mp4" type="video/mp4" />
                         Your browser does not support HTML5 video.
                       </video>
                     ) : (

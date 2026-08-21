@@ -1,15 +1,8 @@
 import React, { useState } from 'react';
-import { Music, Volume2, VolumeX, Menu, X } from 'lucide-react';
-import { weddingAudio } from '../utils/audioPlayer';
+import { Menu, X } from 'lucide-react';
 
 export const Navbar: React.FC = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const toggleMusic = () => {
-    const active = weddingAudio.toggle();
-    setIsPlaying(active);
-  };
 
   const navLinks = [
     { name: 'Home', href: '#home' },
@@ -59,35 +52,8 @@ export const Navbar: React.FC = () => {
           ))}
         </nav>
 
-        {/* Right: Music Toggle & Mobile Menu */}
+        {/* Right: Mobile Menu Toggle */}
         <div className="flex items-center gap-3">
-          <button
-            id="music-toggle-btn"
-            onClick={toggleMusic}
-            aria-label={isPlaying ? 'Pause wedding music' : 'Play wedding music'}
-            title={isPlaying ? 'Mute Music' : 'Play Shehnai / Wedding Music'}
-            className="flex items-center gap-2 px-3.5 py-2 rounded-full border border-[#d4af6a]/60 bg-[#0d1630]/80 hover:bg-[#131f42] text-[#f2cf87] hover:border-[#f2cf87] hover:shadow-[0_0_15px_rgba(212,175,106,0.4)] transition-all duration-300 focus:outline-none"
-          >
-            {isPlaying ? (
-              <>
-                <Volume2 className="w-4 h-4 text-[#d4af6a] animate-pulse" />
-                <div className="flex items-end gap-[2px] h-3.5 px-0.5">
-                  <span className="w-1 bg-[#d4af6a] animate-[bounce_0.6s_infinite] h-full" />
-                  <span className="w-1 bg-[#f2cf87] animate-[bounce_0.8s_infinite] h-2/3" />
-                  <span className="w-1 bg-[#d4af6a] animate-[bounce_0.5s_infinite] h-4/5" />
-                </div>
-              </>
-            ) : (
-              <>
-                <VolumeX className="w-4 h-4 text-[#d4af6a]/80" />
-                <span className="hidden sm:inline font-cinzel text-[11px] uppercase tracking-wider text-[#d4af6a]">
-                  Music
-                </span>
-                <Music className="w-3.5 h-3.5 text-[#d4af6a]/60 sm:hidden" />
-              </>
-            )}
-          </button>
-
           {/* Mobile hamburger button */}
           <button
             id="mobile-menu-toggle-btn"

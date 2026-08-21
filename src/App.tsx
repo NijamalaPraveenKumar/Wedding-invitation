@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Navbar } from './components/Navbar';
 import { HeroSection } from './components/HeroSection';
 import { VideoSection } from './components/VideoSection';
@@ -7,8 +7,13 @@ import { FamiliesSection } from './components/FamiliesSection';
 import { CountdownVenueSection } from './components/CountdownVenueSection';
 import { FooterSection } from './components/FooterSection';
 import { FloatingGoldDust } from './components/OrnamentalDecorations';
+import { initBackgroundMusic } from './utils/audioPlayer';
 
 export default function App() {
+  useEffect(() => {
+    initBackgroundMusic();
+  }, []);
+
   return (
     <div className="min-h-screen bg-[#0a1128] text-[#f2cf87] font-garamond relative selection:bg-[#d4af6a]/30 selection:text-[#fcebc2] flex flex-col">
       {/* Outer Royal Gold Perimeter Accents (Responsive) */}

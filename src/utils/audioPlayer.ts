@@ -1,118 +1,97 @@
-// Web Audio API ambient classical Shehnai/Tanpura synthesizer
-// Plays soothing traditional Mangala Vaidyam / Kalyani raagam notes
+// Invisible Background Wedding Music Player
+// Automatically plays uploaded wedding music (music.mp3)
+// Handles browser autoplay policies with one-time interaction fallback
+
 class WeddingAudioPlayer {
-  private audioCtx: AudioContext | null = null;
-  private isPlaying: boolean = false;
-  private isMuted: boolean = false;
-  private intervalId: number | null = null;
-  private gainNode: GainNode | null = null;
   private audioElement: HTMLAudioElement | null = null;
+  private isStarted: boolean = false;
+  private hasInteracted: boolean = false;
 
   constructor() {
-    // Try to load custom audio if available
+    if (typeof window === 'undefined') return;
+
     try {
-      this.audioElement = new Audio('assets/music.mp3');
+      this.audioElement = new Audio();
+      this.audioElement.src = '/music.mp3';
       this.audioElement.loop = true;
+      this.audioElement.volume = 0.45;
+      this.audioElement.preload = 'auto';
+
+      // Fallback source handlers if needed
+      this.audioElement.onerror = () => {
+        if (this.audioElement) {
+          if (!this.audioElement.src.endsWith('music.mp3')) {
+            this.audioElement.src = 'music.mp3';
+          }
+        }
+      };
     } catch {
       // Audio element initialization fallback
     }
   }
 
-  private initAudioContext() {
-    if (!this.audioCtx) {
-      const AudioContextClass = window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext;
-      this.audioCtx = new AudioContextClass();
-      this.gainNode = this.audioCtx.createGain();
-      this.gainNode.gain.setValueAtTime(0.18, this.audioCtx.currentTime);
-      this.gainNode.connect(this.audioCtx.destination);
-    }
-    if (this.audioCtx.state === 'suspended') {
-      this.audioCtx.resume();
+  public start() {
+    if (this.isStarted || !this.audioElement) return;
+
+    const playPromise = this.audioElement.play();
+
+    if (playPromise !== undefined) {
+      playPromise
+        .then(() => {
+          this.isStarted = true;
+          this.removeInteractionListeners();
+        })
+        .catch(() => {
+          // Autoplay blocked by browser policy: register one-time interaction listener
+          this.setupInteractionListeners();
+        });
     }
   }
 
-  private playTone(freq: number, duration: number, delay: number = 0) {
-    if (!this.audioCtx || !this.gainNode || this.isMuted) return;
+  private handleUserInteraction = () => {
+    if (this.hasInteracted || this.isStarted || !this.audioElement) return;
+    this.hasInteracted = true;
 
-    const osc = this.audioCtx.createOscillator();
-    const noteGain = this.audioCtx.createGain();
-
-    // Harmonics for a reedy Shehnai / Nadaswaram timbre
-    osc.type = 'triangle';
-    osc.frequency.setValueAtTime(freq, this.audioCtx.currentTime + delay);
-
-    // Warm envelope
-    const startTime = this.audioCtx.currentTime + delay;
-    noteGain.gain.setValueAtTime(0, startTime);
-    noteGain.gain.linearRampToValueAtTime(0.2, startTime + 0.1);
-    noteGain.gain.exponentialRampToValueAtTime(0.001, startTime + duration);
-
-    osc.connect(noteGain);
-    noteGain.connect(this.gainNode);
-
-    osc.start(startTime);
-    osc.stop(startTime + duration);
-  }
-
-  public play() {
-    this.isPlaying = true;
-    this.initAudioContext();
-
-    // If external audio exists and loads, try that
-    if (this.audioElement && this.audioElement.src) {
-      this.audioElement.play().catch(() => {
-        // Fallback to synthesized traditional Kalyani raagam notes
-        this.startRaagamLoop();
+    this.audioElement
+      .play()
+      .then(() => {
+        this.isStarted = true;
+        this.removeInteractionListeners();
+      })
+      .catch(() => {
+        // Retry with secondary path if needed
+        if (this.audioElement && !this.audioElement.src.includes('assets')) {
+          this.audioElement.src = 'assets/music.mp3';
+          this.audioElement.play().then(() => {
+            this.isStarted = true;
+            this.removeInteractionListeners();
+          }).catch(() => {});
+        }
       });
-    } else {
-      this.startRaagamLoop();
-    }
+  };
+
+  private setupInteractionListeners() {
+    if (typeof window === 'undefined') return;
+
+    const events = ['click', 'touchstart', 'touchend', 'keydown', 'scroll', 'pointerdown', 'mousedown'];
+    events.forEach((evt) => {
+      window.addEventListener(evt, this.handleUserInteraction, { once: true, passive: true });
+    });
   }
 
-  private startRaagamLoop() {
-    if (this.intervalId) return;
+  private removeInteractionListeners() {
+    if (typeof window === 'undefined') return;
 
-    // Kalyani Raagam frequencies (Sa, Ri2, Ga3, Ma2, Pa, Dha2, Ni3, Sa') in base D (293.66 Hz)
-    const scale = [293.66, 329.63, 369.99, 415.30, 440.00, 493.88, 554.37, 587.33];
-    const melodyPattern = [0, 2, 4, 5, 4, 2, 0, 4, 7, 6, 4, 2, 0, 2, 4, 0];
-    let noteIndex = 0;
-
-    const playNext = () => {
-      if (!this.isPlaying) return;
-      const note = melodyPattern[noteIndex % melodyPattern.length];
-      const freq = scale[note];
-      this.playTone(freq, 0.8, 0);
-      noteIndex++;
-    };
-
-    playNext();
-    this.intervalId = window.setInterval(playNext, 850);
-  }
-
-  public pause() {
-    this.isPlaying = false;
-    if (this.audioElement) {
-      this.audioElement.pause();
-    }
-    if (this.intervalId) {
-      clearInterval(this.intervalId);
-      this.intervalId = null;
-    }
-  }
-
-  public toggle(): boolean {
-    if (this.isPlaying) {
-      this.pause();
-      return false;
-    } else {
-      this.play();
-      return true;
-    }
-  }
-
-  public getStatus(): boolean {
-    return this.isPlaying;
+    const events = ['click', 'touchstart', 'touchend', 'keydown', 'scroll', 'pointerdown', 'mousedown'];
+    events.forEach((evt) => {
+      window.removeEventListener(evt, this.handleUserInteraction);
+    });
   }
 }
 
 export const weddingAudio = new WeddingAudioPlayer();
+
+export function initBackgroundMusic() {
+  weddingAudio.start();
+}
+

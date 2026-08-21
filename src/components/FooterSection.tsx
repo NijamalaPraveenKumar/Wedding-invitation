@@ -49,23 +49,18 @@ export const FooterSection: React.FC = () => {
 
               <div className="relative aspect-[4/5] w-full rounded-xl overflow-hidden border border-[#d4af6a]/40">
                 <picture>
-                  <source srcSet="Untitled design.png" />
-                  <source srcSet="/Untitled design.png" />
-                  <source srcSet="assets/Untitled design.png" />
-                  <source srcSet="/assets/Untitled design.png" />
-                  <source srcSet="assets/couple-hero.jpg" />
-                  <source srcSet="assets/couple-hero.png" />
-                  <source srcSet="assets/couple-footer.jpg" />
+                  <source srcSet="footer.png" />
+                  <source srcSet="/footer.png" />
+                  <source srcSet="assets/footer.png" />
                   <img
-                    src="Untitled design.png"
+                    src="footer.png"
                     alt="Suresh & Nandini Together"
                     referrerPolicy="no-referrer"
-                    className="w-full h-full object-cover object-[75%_center] transform hover:scale-105 transition-transform duration-700"
+                    className="w-full h-full object-cover object-center transform hover:scale-105 transition-transform duration-700"
                     onError={(e) => {
                       const target = e.currentTarget;
-                      if (target.src.indexOf('unsplash.com') === -1) {
-                        target.src =
-                          'https://images.unsplash.com/photo-1583939003579-730e3918a45a?q=80&w=1920&auto=format&fit=crop';
+                      if (target.src.indexOf('footer.png') === -1) {
+                        target.src = '/footer.png';
                       }
                     }}
                   />
